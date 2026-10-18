@@ -958,8 +958,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b6dc485bdeb8e4a89a1b0570fb16bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnManager: {fileID: 1668777990}
   diceResultText: {fileID: 2095613805}
   diceResultTemporaryText: {fileID: 1969467343}
+  hasRolledThisTurn: 0
 --- !u!4 &1442229356
 Transform:
   m_ObjectHideFlags: 0
@@ -1027,6 +1029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceRoll: {fileID: 1442229355}
+  gridManager: {fileID: 1297750992}
   players:
   - {fileID: 1592081176}
   - {fileID: 500924938}
@@ -1328,6 +1331,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cop
       objectReference: {fileID: 0}
+    - target: {fileID: 6996748958387069046, guid: beaf85a82e5b2d24dbbb7d759c3ae572, type: 3}
+      propertyPath: diceRoll
+      value: 
+      objectReference: {fileID: 1442229355}
+    - target: {fileID: 6996748958387069046, guid: beaf85a82e5b2d24dbbb7d759c3ae572, type: 3}
+      propertyPath: gridManager
+      value: 
+      objectReference: {fileID: 1297750992}
     - target: {fileID: 7594301902017696303, guid: beaf85a82e5b2d24dbbb7d759c3ae572, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.27
@@ -1381,6 +1392,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3705307785810477792, guid: ce3125a73f7fea7439cd050d583df2a9, type: 3}
+      propertyPath: diceRoll
+      value: 
+      objectReference: {fileID: 1442229355}
+    - target: {fileID: 3705307785810477792, guid: ce3125a73f7fea7439cd050d583df2a9, type: 3}
+      propertyPath: gridManager
+      value: 
+      objectReference: {fileID: 1297750992}
     - target: {fileID: 7991102527113082735, guid: ce3125a73f7fea7439cd050d583df2a9, type: 3}
       propertyPath: m_Name
       value: Robber 1
@@ -1482,6 +1501,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robber 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8194925669730397557, guid: a83737a01f929a44686e2923abc94585, type: 3}
+      propertyPath: diceRoll
+      value: 
+      objectReference: {fileID: 1442229355}
+    - target: {fileID: 8194925669730397557, guid: a83737a01f929a44686e2923abc94585, type: 3}
+      propertyPath: gridManager
+      value: 
+      objectReference: {fileID: 1297750992}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1499,6 +1526,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robber 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6573380378533819679, guid: ebd099fc82530444ba8f57cc242c6938, type: 3}
+      propertyPath: diceRoll
+      value: 
+      objectReference: {fileID: 1442229355}
+    - target: {fileID: 6573380378533819679, guid: ebd099fc82530444ba8f57cc242c6938, type: 3}
+      propertyPath: gridManager
+      value: 
+      objectReference: {fileID: 1297750992}
     - target: {fileID: 8795100519752596035, guid: ebd099fc82530444ba8f57cc242c6938, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.27

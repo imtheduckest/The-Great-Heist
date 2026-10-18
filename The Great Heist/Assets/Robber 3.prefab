@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8929952555827399509}
   - component: {fileID: 3513663096232032204}
   - component: {fileID: 2959183973064888159}
+  - component: {fileID: 6573380378533819679}
   m_Layer: 0
   m_Name: Robber 3
   m_TagString: Untagged
@@ -124,3 +125,22 @@ MonoBehaviour:
   isCop: 0
   gridX: 0
   gridY: 0
+--- !u!114 &6573380378533819679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048583997030672670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d655e44f79408c04c9fb7b13d5e65ad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 0}
+  diceRoll: {fileID: 0}
+  gridX: 0
+  gridY: 0
+  tokenHeight: 0.5
+  highlightPrefab: {fileID: 3934652121048508715, guid: 3f412053269345b4b82161b7cab3cc67, type: 3}
+  highlightHeight: 0.06

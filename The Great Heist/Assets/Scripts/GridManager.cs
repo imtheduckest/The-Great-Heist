@@ -95,18 +95,20 @@ public class GridManager : MonoBehaviour
     {
         Vector2Int pos = new Vector2Int(x, y);
 
-        // Check if the coordinate exists within our grid bounds
-        if (gridCells.ContainsKey(pos))
-        {
-            int tileType = gridCells[pos].tileType;
-            // If tileType is 1 (Wall), player CANNOT move there
-            if (tileType == 1)
-            {
-                return false;
-            }
-            return true;
-        }
-        return false; // Out of bounds
+        if (!gridCells.TryGetValue(pos, out TileData tile)) return false;
+
+        return tile.tileType == 0 || tile.tileType == 2;
+    }
+
+    public Vector3 GetTileWorldPosition(int x, int y)
+    {
+        float centerOffset = (width - 1) * 0.5f;
+
+        return new Vector3(
+            gameBoard.x + ((x - centerOffset) * tileSpacing),
+            gameBoard.y,
+            gameBoard.z + ((y - centerOffset) * tileSpacing)
+        );
     }
 
     void OnDrawGizmos()

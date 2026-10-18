@@ -24,22 +24,7 @@ public class DiceRoll : MonoBehaviour
         UpdateUI();
     }
 
-    void Update()
-    {
-        // Only board clicks count as moves.
-        // Clicking UI buttons will not consume a move.
-        if (!Input.GetMouseButtonDown(0))
-            return;
-
-        if (EventSystem.current != null &&
-            EventSystem.current.IsPointerOverGameObject())
-            return;
-
-        if (hasRolledThisTurn && remainingMoves > 0)
-        {
-            UseMove();
-        }
-    }
+    // PlayerMovement now handles board clicks and movement
 
     public void RollDice()
     {
@@ -130,6 +115,30 @@ public class DiceRoll : MonoBehaviour
 
             if (turnManager != null) turnManager.EndTurn();
             else ResetDice();
+        }
+    }
+
+    public void ConsumeMove()
+    {
+        if (!hasRolledThisTurn || remainingMoves <= 0)
+            return;
+
+        remainingMoves--;
+
+        Debug.Log(
+            $"[DiceRoll] Move used! Remaining: {remainingMoves}"
+        );
+
+        UpdateUI();
+
+        if (remainingMoves <= 0)
+        {
+            Debug.Log("[DiceRoll] All moves used. Ending turn.");
+
+            if (turnManager != null)
+                turnManager.EndTurn();
+            else
+                ResetDice();
         }
     }
 
