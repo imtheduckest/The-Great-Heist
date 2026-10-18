@@ -80,7 +80,7 @@ public class GridManager : MonoBehaviour
                     Vector3 spawnPosition = new Vector3(xPos, gameBoard.y, zPos);
 
                     GameObject tileGO = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity, transform);
-                    tileGO.transform.localScale = new Vector3(tileSize, tileGO.transform.localScale.y, tileSize);
+                    tileGO.transform.localScale = new Vector3(tileGO.transform.localScale.x, tileGO.transform.localScale.y, tileGO.transform.localScale.z);
                     tileGO.name = $"Tile_{x}_{y}_Type_{type}";
                     newTile.tile = tileGO;
                 }
