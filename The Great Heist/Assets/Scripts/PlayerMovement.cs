@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public GridManager gridManager;
     public DiceRoll diceRoll;
+    public CaptureDetector captureDetector;
 
     [Header("Movement")]
     public int gridX;
@@ -32,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (diceRoll == null)
             diceRoll = FindObjectOfType<DiceRoll>();
+
+        if (captureDetector == null)
+            captureDetector = FindObjectOfType<CaptureDetector>();
 
         if (gridManager == null)
         {
@@ -118,8 +122,8 @@ public class PlayerMovement : MonoBehaviour
                 continue;
 
             // Do not allow moving onto another figure.
-            if (IsOccupiedByAnotherPlayer(targetX, targetY))
-                continue;
+            //if (IsOccupiedByAnotherPlayer(targetX, targetY))
+            //    continue;
 
             CreateHighlight(targetX, targetY);
         }
@@ -243,14 +247,17 @@ public class PlayerMovement : MonoBehaviour
         if (!gridManager.CanMoveTo(targetX, targetY))
             return false;
 
-        if (IsOccupiedByAnotherPlayer(targetX, targetY))
-            return false;
+        //if (IsOccupiedByAnotherPlayer(targetX, targetY))
+        //    return false;
 
         gridX = targetX;
         gridY = targetY;
 
         SnapToGrid();
         ClearHighlights();
+
+        if (captureDetector != null)
+            captureDetector.CheckForCapture(this);
 
         // Consume exactly one move after a successful move.
         diceRoll.ConsumeMove();
