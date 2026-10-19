@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class CaptureDetector : MonoBehaviour
 {
+    private bool capturePending;
+    private readonly List<PlayerToken> candidates = new List<PlayerToken>();
+
     public void CheckForCapture(PlayerMovement movedPlayer)
     {
-        if (movedPlayer == null)
+        if (movedPlayer == null || capturePending)
             return;
 
         PlayerToken[] tokens = FindObjectsOfType<PlayerToken>();
@@ -38,6 +41,8 @@ public class CaptureDetector : MonoBehaviour
         if (cop == null)
             return;
 
+        candidates.Clear();
+
         // Find robbers on the same tile.
         foreach (PlayerToken token in tokens)
         {
@@ -47,7 +52,8 @@ public class CaptureDetector : MonoBehaviour
             if (token.isCop)
                 continue;
 
-            PlayerMovement movement = token.GetComponent<PlayerMovement>();
+            PlayerMovement movement =
+                token.GetComponent<PlayerMovement>();
 
             if (movement == null)
                 continue;
@@ -55,12 +61,67 @@ public class CaptureDetector : MonoBehaviour
             if (movement.gridX == movedPlayer.gridX &&
                 movement.gridY == movedPlayer.gridY)
             {
-                Debug.Log(
-                    "Capture detected! Cop and " +
-                    token.playerName + " share tile (" +
-                    movement.gridX + ", " + movement.gridY + ")."
-                );
+                candidates.Add(token);
             }
         }
+
+        if (candidates.Count == 0)
+            return;
+
+        capturePending = true;
+
+        if (candidates.Count == 1)
+        {
+            CatchRobber(candidates[0]);
+        }
+        else
+        {
+            Debug.Log("Choose one robber to catch.");
+        }
+    }
+
+    private void OnGUI()
+    {
+        if (!capturePending || candidates.Count <= 1)
+            return;
+
+        GUI.Box(
+            new Rect(Screen.width / 2f - 150, 20, 300, 45),
+            "Choose one robber to catch"
+        );
+
+        float buttonY = 75f;
+
+        foreach (PlayerToken robber in candidates)
+        {
+            if (robber == null ||
+                !robber.gameObject.activeInHierarchy)
+                continue;
+
+            string buttonLabel = "Catch " + robber.playerName;
+
+            if (GUI.Button(
+                new Rect(Screen.width / 2f - 100, buttonY, 200, 35),
+                buttonLabel))
+            {
+                CatchRobber(robber);
+                return;
+            }
+
+            buttonY += 40f;
+        }
+    }
+
+    private void CatchRobber(PlayerToken robber)
+    {
+        if (!capturePending || robber == null)
+            return;
+
+        Debug.Log(robber.playerName + " has been caught!");
+
+        robber.gameObject.SetActive(false);
+
+        candidates.Clear();
+        capturePending = false;
     }
 }
