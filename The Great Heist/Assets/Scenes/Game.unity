@@ -959,6 +959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceRoll: {fileID: 1442229355}
+  turnManager: {fileID: 1668777990}
 --- !u!4 &1300726454
 Transform:
   m_ObjectHideFlags: 0

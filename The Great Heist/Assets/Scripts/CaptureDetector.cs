@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CaptureDetector : MonoBehaviour
 {
+    [Header("Refernces")]
     public DiceRoll diceRoll;
+    public TurnManager turnManager;
 
     private bool capturePending;
     private readonly List<PlayerToken> candidates = new List<PlayerToken>();
@@ -127,6 +129,11 @@ public class CaptureDetector : MonoBehaviour
         Debug.Log(robber.playerName + " has been caught!");
 
         robber.gameObject.SetActive(false);
+
+        if (turnManager != null)
+        {
+            turnManager.EndTurn();
+        }
 
         candidates.Clear();
         capturePending = false;
