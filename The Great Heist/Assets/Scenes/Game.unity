@@ -929,6 +929,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1300726452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1300726454}
+  - component: {fileID: 1300726453}
+  m_Layer: 0
+  m_Name: CaptureDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1300726453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300726452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c663041f73c099b4082224b5336232b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceRoll: {fileID: 1442229355}
+--- !u!4 &1300726454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300726452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.0487037, y: 0.1848264, z: -3.7623115}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1442229354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,6 +1384,10 @@ PrefabInstance:
       propertyPath: gridManager
       value: 
       objectReference: {fileID: 1297750992}
+    - target: {fileID: 6996748958387069046, guid: beaf85a82e5b2d24dbbb7d759c3ae572, type: 3}
+      propertyPath: captureDetector
+      value: 
+      objectReference: {fileID: 1300726453}
     - target: {fileID: 7594301902017696303, guid: beaf85a82e5b2d24dbbb7d759c3ae572, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.27
@@ -1400,6 +1449,10 @@ PrefabInstance:
       propertyPath: gridManager
       value: 
       objectReference: {fileID: 1297750992}
+    - target: {fileID: 3705307785810477792, guid: ce3125a73f7fea7439cd050d583df2a9, type: 3}
+      propertyPath: captureDetector
+      value: 
+      objectReference: {fileID: 1300726453}
     - target: {fileID: 7991102527113082735, guid: ce3125a73f7fea7439cd050d583df2a9, type: 3}
       propertyPath: m_Name
       value: Robber 1
@@ -1509,6 +1562,10 @@ PrefabInstance:
       propertyPath: gridManager
       value: 
       objectReference: {fileID: 1297750992}
+    - target: {fileID: 8194925669730397557, guid: a83737a01f929a44686e2923abc94585, type: 3}
+      propertyPath: captureDetector
+      value: 
+      objectReference: {fileID: 1300726453}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1534,6 +1591,10 @@ PrefabInstance:
       propertyPath: gridManager
       value: 
       objectReference: {fileID: 1297750992}
+    - target: {fileID: 6573380378533819679, guid: ebd099fc82530444ba8f57cc242c6938, type: 3}
+      propertyPath: captureDetector
+      value: 
+      objectReference: {fileID: 1300726453}
     - target: {fileID: 8795100519752596035, guid: ebd099fc82530444ba8f57cc242c6938, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.27
@@ -1595,3 +1656,4 @@ SceneRoots:
   - {fileID: 327460412}
   - {fileID: 1442229356}
   - {fileID: 1668777991}
+  - {fileID: 1300726454}

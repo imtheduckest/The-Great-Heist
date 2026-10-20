@@ -155,6 +155,12 @@ public class DiceRoll : MonoBehaviour
         UpdateUI();
     }
 
+    public void CancelRemainingMoves()
+    {
+        remainingMoves = 0;
+        UpdateUI();
+    }
+
     void UpdateUI()
     {
         if (diceResultText != null)
