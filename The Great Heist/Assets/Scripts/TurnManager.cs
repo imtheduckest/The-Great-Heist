@@ -124,11 +124,31 @@ public class TurnManager : MonoBehaviour
     {
         if (players == null || players.Count == 0) return;
 
-        currentTurnIndex = (currentTurnIndex + 1) % players.Count;
+        // Find the next active player.
+        int checkedPlayers = 0;
+
+        do
+        {
+            currentTurnIndex = (currentTurnIndex + 1) % players.Count;
+            checkedPlayers++;
+
+        } while (
+            !players[currentTurnIndex].gameObject.activeInHierarchy &&
+            checkedPlayers < players.Count
+        );
 
         if (diceRoll != null)
             diceRoll.ResetDice();
 
-        Debug.Log($"[TurnManager] It is now {ActivePlayer.playerName}'s turn.");
+        if (players[currentTurnIndex].gameObject.activeInHierarchy)
+        {
+            Debug.Log(
+                $"[TurnManager] It is now {ActivePlayer.playerName}'s turn."
+            );
+        }
+        else
+        {
+            Debug.Log("[TurnManager] No active players remain.");
+        }
     }
 }
