@@ -6,6 +6,7 @@ public class CaptureDetector : MonoBehaviour
 {
     [Header("Refernces")]
     public TurnManager turnManager;
+    public GameEndManager gameEndManager;
 
     private bool capturePending;
     private readonly List<PlayerToken> candidates = new List<PlayerToken>();
@@ -123,6 +124,11 @@ public class CaptureDetector : MonoBehaviour
         Debug.Log(robber.playerName + " has been caught!");
 
         robber.gameObject.SetActive(false);
+
+        if (gameEndManager != null)
+        {
+            gameEndManager.CheckWinCondition();
+        }
 
         if (turnManager != null)
         {
