@@ -50,28 +50,83 @@ public class CardManager : MonoBehaviour
     {
         deck.Clear();
 
-        // 60 valuable cards
-        for (int i = 0; i < 60; i++)
+        // 60 valuable cards — placeholders to edit later.
+        for (int i = 1; i <= 60; i++)
         {
-            deck.Add(new CardData("Valuable " + (i + 1),
-                CardType.Valuable, 1000));
+            deck.Add(new CardData(
+                "Valuable " + i.ToString("00"),
+                CardType.Valuable,
+                1000,
+                "Placeholder valuable card."
+            ));
         }
 
-        // 20 item cards
-        for (int i = 0; i < 20; i++)
-        {
-            deck.Add(new CardData("Item " + (i + 1),
-                CardType.Item, 0));
-        }
+        // 20 item cards.
 
-        // 16 event cards
-        for (int i = 0; i < 16; i++)
-        {
-            deck.Add(new CardData("Event " + (i + 1),
-                CardType.Event, 0));
-        }
+        AddCards("Pistol", 2, CardType.Item,
+            "Within 2 squares: shoot and immobilize the player until they roll 6 on their next turn.");
 
-        Debug.Log("Created deck with " + deck.Count + " cards.");
+        AddCards("Rifle", 2, CardType.Item,
+            "Within 3 squares: immobilize the player until they roll 2 or higher on their next turn.");
+
+        AddCards("Lasso", 4, CardType.Item,
+            "Within 1 square: immobilize the player until they roll 2 or higher on their next turn.");
+
+        AddCards("Trap", 3, CardType.Item,
+            "Place on any square. A player who tries to pass it is immobilized until rolling 3 or higher. You may immediately roll the die and finish your move if you have moves remaining.");
+
+        AddCards("Banana Peel", 4, CardType.Item,
+            "Place anywhere. A player who tries to pass it trips and loses their remaining moves.");
+
+        AddCards("Wall", 2, CardType.Item,
+            "Build a temporary wall on any square for 2 full turn cycles. Players cannot pass through or occupy it. A Pickaxe can destroy it.");
+
+        AddCards("Pickaxe", 2, CardType.Item,
+            "Break bank walls or player-created walls. Board changes remain until the end of the game.");
+
+        AddCards("Police Badge", 1, CardType.Item,
+            "If the cop catches you, reveal the badge to avoid being caught. You can move on your next turn.");
+
+        // 16 event cards.
+
+        AddCards("SWAT Team", 1, CardType.Event,
+            "SWAT raids the bank territory for 2 full turn cycles. Three operatives appear 6 tiles from the center in 3 directions. The cop may split movement between the cop and SWAT operatives. SWAT evacuates after 2 cycles if it catches no more than one robber. SWAT can catch only one robber.");
+
+        AddCards("Fire Alarm", 1, CardType.Event,
+            "The bank's emergency doors close for 2 full turn cycles.");
+
+        AddCards("Luck", 4, CardType.Event,
+            "Draw 1 extra card from a pile.");
+
+        AddCards("Bomb", 1, CardType.Event,
+            "You explode in the cell. All your cards are burned and removed from the game.");
+
+        AddCards("Security Alarm", 2, CardType.Event,
+            "Cells cannot be opened for 2 full turn cycles.");
+
+        AddCards("Splinter", 4, CardType.Event,
+            "Drop 1 card.");
+
+        AddCards("Mousetrap", 3, CardType.Event,
+            "Drop 3 cards.");
+
+        Debug.Log(
+            "Created deck: " + deck.Count +
+            " cards. Expected: 96."
+        );
+    }
+
+    void AddCards(string cardName, int quantity, CardType cardType, string description)
+    {
+        for (int i = 0; i < quantity; i++)
+        {
+            deck.Add(new CardData(
+                cardName,
+                cardType,
+                0,
+                description
+            ));
+        }
     }
 
     void ShuffleDeck()
@@ -110,10 +165,21 @@ public class CardManager : MonoBehaviour
                     Vector3.up * (startHeight + i * cardSpacing);
 
                 GameObject cardVisual = Instantiate(
-                    cardPrefab, cardPosition, Quaternion.identity,
+                    cardPrefab,
+                    cardPosition,
+                    Quaternion.identity,
                     pileObject.transform);
 
                 cardVisual.name = card.cardName;
+
+                CardVisual visualData = cardVisual.GetComponent<CardVisual>();
+
+                if (visualData == null)
+                {
+                    visualData = cardVisual.AddComponent<CardVisual>();
+                }
+
+                visualData.cardData = card;
 
                 Renderer cardRenderer =
                     cardVisual.GetComponent<Renderer>();
