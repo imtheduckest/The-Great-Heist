@@ -1,13 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameEndManager : MonoBehaviour
 {
+    public GameObject endScreen;
+
     private bool gameEnded;
 
     public bool GameEnded => gameEnded;
+
+    void Start()
+    {
+        if (endScreen != null)
+            endScreen.SetActive(false);
+    }
 
     public void CheckWinCondition()
     {
@@ -31,6 +37,18 @@ public class GameEndManager : MonoBehaviour
         {
             gameEnded = true;
             Debug.Log("GAME OVER: cop wins");
+
+            if (endScreen != null)
+                endScreen.SetActive(true);
+            else
+                Debug.LogWarning("Game Over Panel is not assigned!");
         }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 }
