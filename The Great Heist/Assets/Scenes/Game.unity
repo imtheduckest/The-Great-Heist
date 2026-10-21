@@ -626,6 +626,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 45, y: -45, z: 0}
+--- !u!1 &1010096853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1010096855}
+  - component: {fileID: 1010096854}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1010096854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010096853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fbfc8fbe7ae5c740b3a277cdb010699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1297750992}
+  cardPrefab: {fileID: 3934652121048508715, guid: 3f412053269345b4b82161b7cab3cc67, type: 3}
+  cardSpacing: 0.03
+  startHeight: 0.1
+  valuableColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  itemColor: {r: 0, g: 1, b: 0, a: 1}
+  eventColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!4 &1010096855
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010096853}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.068652, y: -0.34126863, z: 1.5981147}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1022017926 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2959183973064888159, guid: ebd099fc82530444ba8f57cc242c6938, type: 3}
@@ -2439,3 +2490,4 @@ SceneRoots:
   - {fileID: 1668777991}
   - {fileID: 1300726454}
   - {fileID: 1802508965}
+  - {fileID: 1010096855}
