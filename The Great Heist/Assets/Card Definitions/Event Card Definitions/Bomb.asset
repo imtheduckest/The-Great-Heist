@@ -17,4 +17,4 @@ MonoBehaviour:
   value: 0
   description: Oh no! You found a bomb in cell (Why would anyone put a bomb in deposit?).
     You get exploded and all of your cards are burned down and deleted from game
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}

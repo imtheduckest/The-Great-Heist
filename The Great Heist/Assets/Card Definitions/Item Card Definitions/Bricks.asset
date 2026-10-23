@@ -18,4 +18,4 @@ MonoBehaviour:
   description: "You can build a temporary wall in any square for 2 full turn cycles.
     Players can\u2019t pass or place a figure in wall square. But they can break
     the wall using pickaxe. After wall will be deleted from game"
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}

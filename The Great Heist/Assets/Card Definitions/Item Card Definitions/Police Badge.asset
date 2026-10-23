@@ -17,4 +17,4 @@ MonoBehaviour:
   value: 0
   description: "If cop catches you, you show him the police badge and deceive him.
     You won\u2019t get caught and you can make your move in next turn"
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}

@@ -17,4 +17,4 @@ MonoBehaviour:
   value: 0
   description: If you are in distance from 2 square to player or closer, you can
     shoot and immobilize player until he rolls 6 in his next turn
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}

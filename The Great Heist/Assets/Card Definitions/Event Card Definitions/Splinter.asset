@@ -16,4 +16,4 @@ MonoBehaviour:
   cardType: 2
   value: 0
   description: ouch! You drop 1 card
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}

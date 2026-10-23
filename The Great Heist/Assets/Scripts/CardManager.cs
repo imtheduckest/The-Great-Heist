@@ -13,16 +13,10 @@ public class CardManager : MonoBehaviour
 {
     [Header("References")]
     public GridManager gridManager;
-    public GameObject cardPrefab;
 
     [Header("Card Stack Settings")]
     public float cardSpacing = 0.03f;
     public float startHeight = 0.1f;
-
-    [Header("Card Colors")]
-    public Color valuableColor = Color.yellow;
-    public Color itemColor = Color.green;
-    public Color eventColor = Color.red;
 
     [Header("Deck Setup")]
     public List<CardEntry> deckEntries = new List<CardEntry>();
@@ -42,12 +36,6 @@ public class CardManager : MonoBehaviour
         if (gridManager == null)
         {
             Debug.LogError("CardManager: GridManager is not assigned.");
-            return;
-        }
-
-        if (cardPrefab == null)
-        {
-            Debug.LogError("CardManager: Card Prefab is not assigned.");
             return;
         }
 
@@ -76,7 +64,8 @@ public class CardManager : MonoBehaviour
                     definition.cardName,
                     definition.cardType,
                     definition.value,
-                    definition.description
+                    definition.description,
+                    definition
                 ));
             }
         }
@@ -124,8 +113,7 @@ public class CardManager : MonoBehaviour
         {
             Vector2Int gridPosition = pilePositions[pileIndex];
 
-            Vector3 tilePosition = gridManager.GetTileWorldPosition(
-                gridPosition.x, gridPosition.y);
+            Vector3 tilePosition = gridManager.GetTileWorldPosition(gridPosition.x, gridPosition.y);
 
             GameObject pileObject = new GameObject(
                 "CardPile_" + (pileIndex + 1));
@@ -136,18 +124,31 @@ public class CardManager : MonoBehaviour
             {
                 CardData card = deck[cardIndex++];
 
+                if (card.cardDefinition == null ||
+                    card.cardDefinition.cardPrefab == null)
+                {
+                    Debug.LogError(
+                        "Missing CardDefinition or card prefab for: " +
+                        card.cardName
+                    );
+
+                    continue;
+                }
+
                 Vector3 cardPosition = tilePosition +
                     Vector3.up * (startHeight + i * cardSpacing);
 
                 GameObject cardVisual = Instantiate(
-                    cardPrefab,
+                    card.cardDefinition.cardPrefab,
                     cardPosition,
                     Quaternion.identity,
-                    pileObject.transform);
+                    pileObject.transform
+                );
 
                 cardVisual.name = card.cardName;
 
-                CardVisual visualData = cardVisual.GetComponent<CardVisual>();
+                CardVisual visualData =
+                    cardVisual.GetComponent<CardVisual>();
 
                 if (visualData == null)
                 {
@@ -155,27 +156,6 @@ public class CardManager : MonoBehaviour
                 }
 
                 visualData.cardData = card;
-
-                Renderer cardRenderer =
-                    cardVisual.GetComponent<Renderer>();
-
-                if (cardRenderer != null)
-                {
-                    switch (card.cardType)
-                    {
-                        case CardType.Valuable:
-                            cardRenderer.material.color = valuableColor;
-                            break;
-
-                        case CardType.Item:
-                            cardRenderer.material.color = itemColor;
-                            break;
-
-                        case CardType.Event:
-                            cardRenderer.material.color = eventColor;
-                            break;
-                    }
-                }
             }
         }
 

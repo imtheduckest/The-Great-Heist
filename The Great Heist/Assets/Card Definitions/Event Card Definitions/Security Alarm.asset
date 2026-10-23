@@ -17,4 +17,4 @@ MonoBehaviour:
   value: 0
   description: "The security alarm goes off and cells can\u2019t be opened for 2
     full turn cycles"
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}

@@ -18,18 +18,22 @@ public class CardData
     public CardType cardType;
     public int value;
 
-    [TextArea]
+    [TextArea(3, 6)]
     public string description;
+
+    public CardDefinition cardDefinition;
 
     public CardData(
         string cardName,
         CardType cardType,
         int value,
-        string description = "")
+        string description = "",
+        CardDefinition cardDefinition = null)
     {
         this.cardName = cardName;
         this.cardType = cardType;
         this.value = value;
         this.description = description;
+        this.cardDefinition = cardDefinition;
     }
 }

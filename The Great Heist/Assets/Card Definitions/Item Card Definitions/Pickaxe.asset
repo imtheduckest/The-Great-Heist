@@ -17,4 +17,4 @@ MonoBehaviour:
   value: 0
   description: You can break bank walls or walls created by players. Changings of
     the board are saved for the end of the game
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}

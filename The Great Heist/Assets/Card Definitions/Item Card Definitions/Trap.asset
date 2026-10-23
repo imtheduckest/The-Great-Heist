@@ -18,4 +18,4 @@ MonoBehaviour:
   description: You can set a trap in any square of the board. If player try to pass
     square with a trap he will be immobilized until he rolls 3 or higher. You can
     roll dice immediately and complete your move if you have any
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}
