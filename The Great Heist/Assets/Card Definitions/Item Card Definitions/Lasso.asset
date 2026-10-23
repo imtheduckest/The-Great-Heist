@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da29fc5f680012e48ab062f4748ed105, type: 3}
+  m_Name: Lasso
+  m_EditorClassIdentifier: 
+  cardName: Lasso
+  cardType: 1
+  value: 0
+  description: If you are in distance from 1 square to player or closer, you can
+    immobilize player until he rolls 2 or higher in his next turn
+  cardPrefab: {fileID: 0}

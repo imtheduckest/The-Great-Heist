@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class CardEntry
+{
+    public CardDefinition definition;
+    public int quantity;
+}
+
 public class CardManager : MonoBehaviour
 {
     [Header("References")]
@@ -16,6 +23,9 @@ public class CardManager : MonoBehaviour
     public Color valuableColor = Color.yellow;
     public Color itemColor = Color.green;
     public Color eventColor = Color.red;
+
+    [Header("Deck Setup")]
+    public List<CardEntry> deckEntries = new List<CardEntry>();
 
     private List<CardData> deck = new List<CardData>();
 
@@ -50,70 +60,35 @@ public class CardManager : MonoBehaviour
     {
         deck.Clear();
 
-        // 60 valuable cards — placeholders to edit later.
-        for (int i = 1; i <= 60; i++)
+        foreach (CardEntry entry in deckEntries)
         {
-            deck.Add(new CardData(
-                "Valuable " + i.ToString("00"),
-                CardType.Valuable,
-                1000,
-                "Placeholder valuable card."
-            ));
+            if (entry.definition == null || entry.quantity <= 0)
+            {
+                Debug.LogWarning("CardManager: Invalid deck entry.");
+                continue;
+            }
+
+            for (int i = 0; i < entry.quantity; i++)
+            {
+                CardDefinition definition = entry.definition;
+
+                deck.Add(new CardData(
+                    definition.cardName,
+                    definition.cardType,
+                    definition.value,
+                    definition.description
+                ));
+            }
         }
 
-        // 20 item cards.
+        Debug.Log("Created deck with " + deck.Count + " cards.");
 
-        AddCards("Pistol", 2, CardType.Item,
-            "Within 2 squares: shoot and immobilize the player until they roll 6 on their next turn.");
-
-        AddCards("Rifle", 2, CardType.Item,
-            "Within 3 squares: immobilize the player until they roll 2 or higher on their next turn.");
-
-        AddCards("Lasso", 4, CardType.Item,
-            "Within 1 square: immobilize the player until they roll 2 or higher on their next turn.");
-
-        AddCards("Trap", 3, CardType.Item,
-            "Place on any square. A player who tries to pass it is immobilized until rolling 3 or higher. You may immediately roll the die and finish your move if you have moves remaining.");
-
-        AddCards("Banana Peel", 4, CardType.Item,
-            "Place anywhere. A player who tries to pass it trips and loses their remaining moves.");
-
-        AddCards("Wall", 2, CardType.Item,
-            "Build a temporary wall on any square for 2 full turn cycles. Players cannot pass through or occupy it. A Pickaxe can destroy it.");
-
-        AddCards("Pickaxe", 2, CardType.Item,
-            "Break bank walls or player-created walls. Board changes remain until the end of the game.");
-
-        AddCards("Police Badge", 1, CardType.Item,
-            "If the cop catches you, reveal the badge to avoid being caught. You can move on your next turn.");
-
-        // 16 event cards.
-
-        AddCards("SWAT Team", 1, CardType.Event,
-            "SWAT raids the bank territory for 2 full turn cycles. Three operatives appear 6 tiles from the center in 3 directions. The cop may split movement between the cop and SWAT operatives. SWAT evacuates after 2 cycles if it catches no more than one robber. SWAT can catch only one robber.");
-
-        AddCards("Fire Alarm", 1, CardType.Event,
-            "The bank's emergency doors close for 2 full turn cycles.");
-
-        AddCards("Luck", 4, CardType.Event,
-            "Draw 1 extra card from a pile.");
-
-        AddCards("Bomb", 1, CardType.Event,
-            "You explode in the cell. All your cards are burned and removed from the game.");
-
-        AddCards("Security Alarm", 2, CardType.Event,
-            "Cells cannot be opened for 2 full turn cycles.");
-
-        AddCards("Splinter", 4, CardType.Event,
-            "Drop 1 card.");
-
-        AddCards("Mousetrap", 3, CardType.Event,
-            "Drop 3 cards.");
-
-        Debug.Log(
-            "Created deck: " + deck.Count +
-            " cards. Expected: 96."
-        );
+        if (deck.Count != 96)
+        {
+            Debug.LogWarning(
+                "Expected 96 cards, but deck contains " + deck.Count + "."
+            );
+        }
     }
 
     void AddCards(string cardName, int quantity, CardType cardType, string description)

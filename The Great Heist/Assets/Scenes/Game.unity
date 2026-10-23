@@ -662,6 +662,39 @@ MonoBehaviour:
   valuableColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   itemColor: {r: 0, g: 1, b: 0, a: 1}
   eventColor: {r: 1, g: 0, b: 0, a: 1}
+  deckEntries:
+  - definition: {fileID: 11400000, guid: 7f3f6a05b8e3145409d27cbe1aa59edf, type: 2}
+    quantity: 4
+  - definition: {fileID: 11400000, guid: d55b629bd603b034b95578211c414e3a, type: 2}
+    quantity: 1
+  - definition: {fileID: 11400000, guid: e7e11bfab3ce29048beae49ff85d8bc0, type: 2}
+    quantity: 1
+  - definition: {fileID: 11400000, guid: b9d891edf548a614790d7808e375372c, type: 2}
+    quantity: 2
+  - definition: {fileID: 11400000, guid: 03bed2b56fb8c4e459b7e1ac51e9482d, type: 2}
+    quantity: 3
+  - definition: {fileID: 11400000, guid: 3fac817a25f8d514e9d341aac1f5992a, type: 2}
+    quantity: 4
+  - definition: {fileID: 11400000, guid: e4d63e88bbc5ae746bb2412822f7d3cb, type: 2}
+    quantity: 1
+  - definition: {fileID: 11400000, guid: 2237d8e239ddb954ebb289c69eea22a1, type: 2}
+    quantity: 4
+  - definition: {fileID: 11400000, guid: 7a6570b332f7a4d49bf656f6720c5c63, type: 2}
+    quantity: 2
+  - definition: {fileID: 11400000, guid: 4f200d7eb9ba73b409113928791b55cd, type: 2}
+    quantity: 4
+  - definition: {fileID: 11400000, guid: 122885852af8e7942a38feaa04319206, type: 2}
+    quantity: 2
+  - definition: {fileID: 11400000, guid: 4b446f30184c5764b8fe0a6cc6da51f9, type: 2}
+    quantity: 2
+  - definition: {fileID: 11400000, guid: fbf0094dd933eb646bb044548ffc33a6, type: 2}
+    quantity: 2
+  - definition: {fileID: 11400000, guid: 51e6bf696939c19439e14523e99aaf28, type: 2}
+    quantity: 1
+  - definition: {fileID: 11400000, guid: 853ec993c3a952842ac6f4437123188e, type: 2}
+    quantity: 3
+  - definition: {fileID: 11400000, guid: dedd648473059a646a489c3fb288f3f8, type: 2}
+    quantity: 60
 --- !u!4 &1010096855
 Transform:
   m_ObjectHideFlags: 0
