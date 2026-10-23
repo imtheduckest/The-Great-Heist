@@ -6,4 +6,30 @@ using UnityEngine;
 public class CardVisual : MonoBehaviour
 {
     public CardData cardData;
+
+    [Header("State")]
+    public bool isTopCard;
+    private bool isRevealed;
+
+    void OnMouseDown()
+    {
+        if (!isTopCard)
+            return;
+
+        RevealCard();
+    }
+
+    void RevealCard()
+    {
+        if (isRevealed)
+            return;
+
+        isRevealed = true;
+
+        if (cardData != null)
+            Debug.Log("Revealed card: " + cardData.cardName);
+
+        else
+            Debug.LogWarning("CardVisual: CardData is missing!");
+    }
 }

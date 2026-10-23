@@ -156,6 +156,8 @@ public class CardManager : MonoBehaviour
                 }
 
                 visualData.cardData = card;
+
+                visualData.isTopCard = (i == 23); //temp val
             }
         }
 
