@@ -14,6 +14,7 @@ public class CardManager : MonoBehaviour
     [Header("References")]
     public GridManager gridManager;
     private CardVisual activeCard;
+    public TurnManager turnManager;
 
     [Header("Card Stack Settings")]
     public float cardSpacing = 0.03f;
@@ -31,6 +32,11 @@ public class CardManager : MonoBehaviour
     private Dictionary<CardVisual, GameObject> pileByCard =
         new Dictionary<CardVisual, GameObject>();
 
+    private GameObject[] pileObjects;
+    private GameObject allowedPile;
+
+    private bool canDrawCards = false;
+
     private readonly Vector2Int[] pilePositions =
     {
         new Vector2Int(1, 5),
@@ -47,9 +53,22 @@ public class CardManager : MonoBehaviour
             return;
         }
 
+        if (turnManager == null)
+            turnManager = FindObjectOfType<TurnManager>();
+
         CreateDeck();
         ShuffleDeck();
         SpawnCardPiles();
+    }
+
+    public void SetDrawingAllowed(bool allowed)
+    {
+        canDrawCards = allowed;
+
+        Debug.Log(
+            "[CardManager] Drawing " +
+            (allowed ? "enabled." : "disabled.")
+        );
     }
 
     void CreateDeck()
@@ -118,6 +137,8 @@ public class CardManager : MonoBehaviour
         cardsByPile.Clear();
         pileByCard.Clear();
 
+        pileObjects = new GameObject[pilePositions.Length];
+
         int cardIndex = 0;
 
         for (int pileIndex = 0; pileIndex < pilePositions.Length; pileIndex++)
@@ -176,6 +197,8 @@ public class CardManager : MonoBehaviour
                 pileByCard.Add(visualData, pileObject);
             }
 
+            pileObjects[pileIndex] = pileObject;
+
             // The last spawned card is the top card.
             if (pileCards.Count > 0)
             {
@@ -186,8 +209,38 @@ public class CardManager : MonoBehaviour
         Debug.Log("Spawned 4 card piles with 24 cards each.");
     }
 
+    public void SetAllowedPileForCell(int cellX, int cellY)
+    {
+        canDrawCards = false;
+        allowedPile = null;
+
+        if (cellX == 2 && cellY == 2)
+            allowedPile = pileObjects[1]; // CardPile_2
+
+        else if (cellX == 4 && cellY == 2)
+            allowedPile = pileObjects[2]; // CardPile_3
+
+        else if (cellX == 4 && cellY == 4)
+            allowedPile = pileObjects[3]; // CardPile_4
+
+        else if (cellX == 2 && cellY == 4)
+            allowedPile = pileObjects[0]; // CardPile_1
+
+        if (allowedPile != null)
+        {
+            canDrawCards = true;
+            Debug.Log($"You can draw from {allowedPile.name}.");
+        }
+    }
+
     public void RevealCard(CardVisual card)
     {
+        if (!canDrawCards)
+        {
+            Debug.Log("[CardManager] You cannot draw a card now.");
+            return;
+        }
+
         if (card == null || activeCard != null)
             return;
 
@@ -198,6 +251,16 @@ public class CardManager : MonoBehaviour
             card,
             out GameObject pileObject))
             return;
+
+        // Only allow drawing from the pile assigned to the current cell.
+        if (pileObject != allowedPile)
+        {
+            Debug.Log(
+                $"Cannot draw from {pileObject.name}. " +
+                $"The allowed pile is {allowedPile?.name ?? "none"}."
+            );
+            return;
+        }
 
         if (!cardsByPile.TryGetValue(
             pileObject,
@@ -230,10 +293,7 @@ public class CardManager : MonoBehaviour
 
     public void RemoveCard(CardVisual card)
     {
-        if (card == null)
-            return;
-
-        if (activeCard != card)
+        if (card == null || activeCard != card)
             return;
 
         activeCard = null;
@@ -242,5 +302,11 @@ public class CardManager : MonoBehaviour
 
         // Temporarily remove the visual from the game.
         Destroy(card.gameObject);
+
+        // Drawing is finished, so end the current turn.
+        SetDrawingAllowed(false);
+
+        if (turnManager != null)
+            turnManager.EndTurn();
     }
 }

@@ -30,7 +30,6 @@ public class DiceRoll : MonoBehaviour
     {
         if (CardVisual.ControlsLocked)
             return;
-
         if (turnManager == null || turnManager.ActivePlayer == null)
         {
             Debug.LogWarning("[DiceRoll] No active player.");
@@ -139,7 +138,7 @@ public class DiceRoll : MonoBehaviour
             Debug.Log("[DiceRoll] All moves used. Ending turn.");
 
             if (turnManager != null)
-                turnManager.EndTurn();
+                turnManager.OnMovementFinished();
             else
                 ResetDice();
         }

@@ -680,6 +680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridManager: {fileID: 1297750992}
+  turnManager: {fileID: 0}
   cardSpacing: 0.03
   startHeight: 0.1
   deckEntries:
@@ -1782,6 +1783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diceRoll: {fileID: 1442229355}
   gridManager: {fileID: 1297750992}
+  cardManager: {fileID: 1010096854}
   players:
   - {fileID: 1592081176}
   - {fileID: 500924938}

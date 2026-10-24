@@ -8,6 +8,7 @@ public class TurnManager : MonoBehaviour
     [Header("References")]
     public DiceRoll diceRoll;
     public GridManager gridManager;
+    public CardManager cardManager;
 
     [Header("Turn State")]
     public List<PlayerToken> players = new List<PlayerToken>();
@@ -25,6 +26,9 @@ public class TurnManager : MonoBehaviour
 
     void Start()
     {
+        if (cardManager == null)
+            cardManager = FindObjectOfType<CardManager>();
+
         if (gridManager == null)
             gridManager = FindObjectOfType<GridManager>();
 
@@ -120,8 +124,64 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+    public void OnMovementFinished()
+    {
+        if (ActivePlayer == null || gridManager == null)
+        {
+            EndTurn();
+            return;
+        }
+
+        PlayerMovement movement =
+            ActivePlayer.GetComponent<PlayerMovement>();
+
+        if (movement == null)
+        {
+            EndTurn();
+            return;
+        }
+
+        Vector2Int finalPosition = new Vector2Int(
+            movement.gridX,
+            movement.gridY
+        );
+
+        if (!gridManager.gridCells.TryGetValue(
+            finalPosition, out TileData tile))
+        {
+            EndTurn();
+            return;
+        }
+
+        // Type 2 = Cell Square.
+        if (tile.tileType == 2 && cardManager != null)
+        {
+            Debug.Log(
+                $"[TurnManager] {ActivePlayer.playerName} " +
+                "finished on a Cell Square. Choose a card pile."
+            );
+
+            cardManager.SetAllowedPileForCell(
+                movement.gridX,
+                movement.gridY
+            );
+        }
+        else
+        {
+            Debug.Log(
+                $"[TurnManager] {ActivePlayer.playerName} " +
+                "finished on an ineligible tile. Turn ends."
+            );
+
+            EndTurn();
+        }
+    }
+
     public void EndTurn()
     {
+        if (cardManager != null)
+            cardManager.SetDrawingAllowed(false);
+
         if (players == null || players.Count == 0) return;
 
         // Find the next active player.
