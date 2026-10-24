@@ -14,6 +14,8 @@ public class CardVisual : MonoBehaviour
     private bool isAnimating;
     private bool isDisplayed;
 
+    public static bool ControlsLocked { get; private set; }
+
     [Header("Reveal Animation")]
     public float moveToCameraDuration = 0.6f;
     public float displayDistance = 3f;
@@ -36,6 +38,9 @@ public class CardVisual : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (CardVisual.ControlsLocked)
+            return;
+
         Debug.Log("Card clicked: " + gameObject.name);
 
         if (!isTopCard || isAnimating || isDisplayed)
@@ -43,6 +48,11 @@ public class CardVisual : MonoBehaviour
 
         if (cardManager != null)
             cardManager.RevealCard(this);
+    }
+
+    public static void SetControlsLocked(bool locked)
+    {
+        ControlsLocked = locked;
     }
 
     public void StartReveal()
@@ -55,6 +65,8 @@ public class CardVisual : MonoBehaviour
             Debug.LogError("CardVisual: Main Camera not found.");
             return;
         }
+
+        ControlsLocked = true;
 
         isAnimating = true;
 
@@ -81,7 +93,7 @@ public class CardVisual : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(
             cam.transform.up,
             -cam.transform.forward
-        );
+        ) * Quaternion.Euler(0f, 180f, 0f);
 
         float elapsed = 0f;
 

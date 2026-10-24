@@ -238,6 +238,8 @@ public class CardManager : MonoBehaviour
 
         activeCard = null;
 
+        CardVisual.SetControlsLocked(false);
+
         // Temporarily remove the visual from the game.
         Destroy(card.gameObject);
     }

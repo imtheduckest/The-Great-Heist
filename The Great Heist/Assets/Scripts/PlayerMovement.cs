@@ -190,6 +190,9 @@ public class PlayerMovement : MonoBehaviour
 
     void TryClickTile()
     {
+        if (CardVisual.ControlsLocked)
+            return;
+
         if (mainCamera == null)
             mainCamera = Camera.main;
 

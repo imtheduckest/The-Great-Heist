@@ -28,6 +28,9 @@ public class DiceRoll : MonoBehaviour
 
     public void RollDice()
     {
+        if (CardVisual.ControlsLocked)
+            return;
+
         if (turnManager == null || turnManager.ActivePlayer == null)
         {
             Debug.LogWarning("[DiceRoll] No active player.");

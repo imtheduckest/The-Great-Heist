@@ -94,6 +94,9 @@ public class BoardCameraOrbit : MonoBehaviour
 
     void Update()
     {
+        if (CardVisual.ControlsLocked)
+            return;
+
         HandleOrbit();
         HandleZoom();
         HandleDoubleClick();
@@ -101,6 +104,9 @@ public class BoardCameraOrbit : MonoBehaviour
 
     void LateUpdate()
     {
+        if (CardVisual.ControlsLocked)
+            return;
+
         // Smoothly move the camera's focus point.
         if (currentTarget != null)
         {
