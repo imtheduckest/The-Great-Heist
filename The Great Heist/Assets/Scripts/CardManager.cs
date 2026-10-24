@@ -154,7 +154,7 @@ public class CardManager : MonoBehaviour
                 GameObject cardVisual = Instantiate(
                     card.cardDefinition.cardPrefab,
                     cardPosition,
-                    Quaternion.identity,
+                    card.cardDefinition.cardPrefab.transform.rotation,
                     pileObject.transform
                 );
 
