@@ -13,6 +13,7 @@ public class CardManager : MonoBehaviour
 {
     [Header("References")]
     public GridManager gridManager;
+    private CardVisual activeCard;
 
     [Header("Card Stack Settings")]
     public float cardSpacing = 0.03f;
@@ -185,24 +186,34 @@ public class CardManager : MonoBehaviour
         Debug.Log("Spawned 4 card piles with 24 cards each.");
     }
 
-    public void RemoveCard(CardVisual card)
+    public void RevealCard(CardVisual card)
     {
-        if (card == null || !card.isTopCard)
+        if (card == null || activeCard != null)
             return;
 
-        if (!pileByCard.TryGetValue(card, out GameObject pileObject))
+        if (!card.isTopCard)
             return;
 
-        if (!cardsByPile.TryGetValue(pileObject, out List<CardVisual> pileCards))
+        if (!pileByCard.TryGetValue(
+            card,
+            out GameObject pileObject))
             return;
 
-        // Remove the card from our tracking data.
+        if (!cardsByPile.TryGetValue(
+            pileObject,
+            out List<CardVisual> pileCards))
+            return;
+
+        // Remember which card is currently being displayed.
+        activeCard = card;
+
+        // Remove it from the logical pile immediately.
         pileCards.Remove(card);
         pileByCard.Remove(card);
 
         card.isTopCard = false;
 
-        // The next card becomes the top card.
+        // Enable the next card in this pile.
         if (pileCards.Count > 0)
         {
             pileCards[pileCards.Count - 1].isTopCard = true;
@@ -212,6 +223,20 @@ public class CardManager : MonoBehaviour
             pileObject.name + ": " +
             pileCards.Count + " cards remaining."
         );
+
+        // Keep the visual alive while it animates.
+        card.StartReveal();
+    }
+
+    public void RemoveCard(CardVisual card)
+    {
+        if (card == null)
+            return;
+
+        if (activeCard != card)
+            return;
+
+        activeCard = null;
 
         // Temporarily remove the visual from the game.
         Destroy(card.gameObject);
