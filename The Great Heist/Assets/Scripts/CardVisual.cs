@@ -25,6 +25,11 @@ public class CardVisual : MonoBehaviour
         if (!isTopCard)
             return;
 
+        if (cardData != null)
+        {
+            Debug.Log("Clicked card: " + cardData.cardName);
+        }
+
         if (cardManager != null)
             cardManager.RemoveCard(this);
     }
