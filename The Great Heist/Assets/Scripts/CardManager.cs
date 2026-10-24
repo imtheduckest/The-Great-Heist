@@ -23,6 +23,13 @@ public class CardManager : MonoBehaviour
 
     private List<CardData> deck = new List<CardData>();
 
+    [Header("Pile Tracking")]
+    private Dictionary<GameObject, List<CardVisual>> cardsByPile =
+    new Dictionary<GameObject, List<CardVisual>>();
+
+    private Dictionary<CardVisual, GameObject> pileByCard =
+        new Dictionary<CardVisual, GameObject>();
+
     private readonly Vector2Int[] pilePositions =
     {
         new Vector2Int(1, 5),
@@ -107,6 +114,9 @@ public class CardManager : MonoBehaviour
 
     void SpawnCardPiles()
     {
+        cardsByPile.Clear();
+        pileByCard.Clear();
+
         int cardIndex = 0;
 
         for (int pileIndex = 0; pileIndex < pilePositions.Length; pileIndex++)
@@ -119,6 +129,9 @@ public class CardManager : MonoBehaviour
                 "CardPile_" + (pileIndex + 1));
 
             pileObject.transform.SetParent(transform);
+
+            List<CardVisual> pileCards = new List<CardVisual>();
+            cardsByPile.Add(pileObject, pileCards);
 
             for (int i = 0; i < 24; i++)
             {
@@ -155,12 +168,52 @@ public class CardManager : MonoBehaviour
                     visualData = cardVisual.AddComponent<CardVisual>();
                 }
 
-                visualData.cardData = card;
+                visualData.Initialize(this, card);
 
-                visualData.isTopCard = (i == 23); //temp val
+                // Register this card in its pile.
+                pileCards.Add(visualData);
+                pileByCard.Add(visualData, pileObject);
+            }
+
+            // The last spawned card is the top card.
+            if (pileCards.Count > 0)
+            {
+                pileCards[pileCards.Count - 1].isTopCard = true;
             }
         }
 
         Debug.Log("Spawned 4 card piles with 24 cards each.");
+    }
+
+    public void RemoveCard(CardVisual card)
+    {
+        if (card == null || !card.isTopCard)
+            return;
+
+        if (!pileByCard.TryGetValue(card, out GameObject pileObject))
+            return;
+
+        if (!cardsByPile.TryGetValue(pileObject, out List<CardVisual> pileCards))
+            return;
+
+        // Remove the card from our tracking data.
+        pileCards.Remove(card);
+        pileByCard.Remove(card);
+
+        card.isTopCard = false;
+
+        // The next card becomes the top card.
+        if (pileCards.Count > 0)
+        {
+            pileCards[pileCards.Count - 1].isTopCard = true;
+        }
+
+        Debug.Log(
+            pileObject.name + ": " +
+            pileCards.Count + " cards remaining."
+        );
+
+        // Temporarily remove the visual from the game.
+        Destroy(card.gameObject);
     }
 }

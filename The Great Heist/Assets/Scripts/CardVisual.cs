@@ -6,30 +6,31 @@ using UnityEngine;
 public class CardVisual : MonoBehaviour
 {
     public CardData cardData;
+    private CardManager cardManager;
 
     [Header("State")]
     public bool isTopCard;
     private bool isRevealed;
+
+    public void Initialize(CardManager manager, CardData data)
+    {
+        cardManager = manager;
+        cardData = data;
+        isTopCard = false;
+        isRevealed = false;
+    }
 
     void OnMouseDown()
     {
         if (!isTopCard)
             return;
 
-        RevealCard();
+        if (cardManager != null)
+            cardManager.RemoveCard(this);
     }
 
-    void RevealCard()
+    public void MarkRevealed() //placeholders
     {
-        if (isRevealed)
-            return;
-
         isRevealed = true;
-
-        if (cardData != null)
-            Debug.Log("Revealed card: " + cardData.cardName);
-
-        else
-            Debug.LogWarning("CardVisual: CardData is missing!");
     }
 }
