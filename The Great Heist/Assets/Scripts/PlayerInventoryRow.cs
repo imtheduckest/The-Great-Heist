@@ -14,9 +14,14 @@ public class PlayerInventoryRow : MonoBehaviour
     public Vector2 iconSize = new Vector2(32, 32);
 
     private PlayerInventory inventory;
+    private PlayerToken player;
+
+    public PlayerToken Player => player;
 
     public void Initialize(PlayerToken player)
     {
+        this.player = player;
+
         inventory = player.GetComponent<PlayerInventory>();
 
         if (inventory == null)

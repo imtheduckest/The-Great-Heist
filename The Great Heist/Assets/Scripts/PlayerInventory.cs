@@ -7,6 +7,7 @@ public class PlayerInventory : MonoBehaviour
     public List<CardData> valuableCards = new List<CardData>();
     public List<CardData> itemCards = new List<CardData>();
     public static event System.Action OnInventoryChanged;
+    public static event System.Action<PlayerToken> OnPlayerCaptured;
 
     public int TotalMoney
     {
@@ -49,5 +50,18 @@ public class PlayerInventory : MonoBehaviour
         );
 
         OnInventoryChanged?.Invoke();
+    }
+
+    public void ClearForCapture()
+    {
+        valuableCards.Clear();
+        itemCards.Clear();
+
+        PlayerToken player = GetComponent<PlayerToken>();
+
+        Debug.Log(player.playerName + "'s inventory has been cleared.");
+
+        OnInventoryChanged?.Invoke();
+        OnPlayerCaptured?.Invoke(player);
     }
 }

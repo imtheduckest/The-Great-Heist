@@ -123,6 +123,18 @@ public class CaptureDetector : MonoBehaviour
 
         Debug.Log(robber.playerName + " has been caught!");
 
+        PlayerInventory inventory = robber.GetComponent<PlayerInventory>();
+
+        if (inventory != null)
+        {
+            inventory.ClearForCapture();
+        }
+
+        else
+        {
+            Debug.LogWarning(robber.playerName + " has no PlayerInventory!");
+        }
+
         robber.gameObject.SetActive(false);
 
         if (gameEndManager != null)

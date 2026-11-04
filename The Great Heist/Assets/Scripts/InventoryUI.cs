@@ -15,11 +15,15 @@ public class InventoryUI : MonoBehaviour
     private void OnEnable()
     {
         PlayerInventory.OnInventoryChanged += RefreshAllRows;
+
+        PlayerInventory.OnPlayerCaptured += RemovePlayerRow;
     }
 
     private void OnDisable()
     {
         PlayerInventory.OnInventoryChanged -= RefreshAllRows;
+
+        PlayerInventory.OnPlayerCaptured -= RemovePlayerRow;
     }
 
     private IEnumerator Start()
@@ -63,6 +67,21 @@ public class InventoryUI : MonoBehaviour
         foreach (PlayerInventoryRow row in rows)
         {
             row.Refresh();
+        }
+    }
+
+    private void RemovePlayerRow(PlayerToken player)
+    {
+        foreach (PlayerInventoryRow row in rows)
+        {
+            if (row.Player == player)
+            {
+                rows.Remove(row);
+                Destroy(row.gameObject);
+
+                Debug.Log(player.playerName + "'s inventory row removed.");
+                return;
+            }
         }
     }
 }
