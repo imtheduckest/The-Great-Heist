@@ -7,6 +7,7 @@ public class CaptureDetector : MonoBehaviour
     [Header("Refernces")]
     public TurnManager turnManager;
     public GameEndManager gameEndManager;
+    public CardManager cardManager;
 
     private bool capturePending;
     private readonly List<PlayerToken> candidates = new List<PlayerToken>();
@@ -133,6 +134,15 @@ public class CaptureDetector : MonoBehaviour
         else
         {
             Debug.LogWarning(robber.playerName + " has no PlayerInventory!");
+        }
+
+        if (cardManager != null)
+        {
+            cardManager.RemoveRandomPile();
+        }
+        else
+        {
+            Debug.LogWarning("CaptureDetector: CardManager is not assigned!");
         }
 
         robber.gameObject.SetActive(false);

@@ -327,4 +327,75 @@ public class CardManager : MonoBehaviour
         if (turnManager != null)
             turnManager.EndTurn();
     }
+
+    public void RemoveRandomPile()
+    {
+        List<GameObject> availablePiles = new List<GameObject>();
+
+        // Find piles that still contain cards.
+        foreach (GameObject pile in pileObjects)
+        {
+            if (pile == null)
+                continue;
+
+            if (cardsByPile.TryGetValue(pile, out List<CardVisual> pileCards)
+                && pileCards.Count > 0)
+            {
+                availablePiles.Add(pile);
+            }
+        }
+
+        if (availablePiles.Count == 0)
+        {
+            Debug.Log("[CardManager] No piles with cards left to remove.");
+            return;
+        }
+
+        // Choose a random pile.
+        int randomIndex = Random.Range(0, availablePiles.Count);
+        GameObject selectedPile = availablePiles[randomIndex];
+
+        Debug.Log("[CardManager] Removing " + selectedPile.name + "!");
+
+        // Remove references to its cards.
+        List<CardVisual> cards = cardsByPile[selectedPile];
+
+        foreach (CardVisual card in cards)
+        {
+            if (card != null)
+                pileByCard.Remove(card);
+        }
+
+        // Handle an active card if it belongs to this pile.
+        if (activeCard != null &&
+            activeCard.transform.IsChildOf(selectedPile.transform))
+        {
+            activeCard = null;
+            CardVisual.SetControlsLocked(false);
+        }
+
+        cardsByPile.Remove(selectedPile);
+
+        // Remove this pile from the pile array.
+        for (int i = 0; i < pileObjects.Length; i++)
+        {
+            if (pileObjects[i] == selectedPile)
+            {
+                pileObjects[i] = null;
+                break;
+            }
+        }
+
+        // If this was the currently allowed pile, drawing is disabled.
+        if (allowedPile == selectedPile)
+        {
+            allowedPile = null;
+            canDrawCards = false;
+        }
+
+        // Destroying the parent also destroys all its card GameObjects.
+        Destroy(selectedPile);
+
+        Debug.Log("[CardManager] Pile removed successfully.");
+    }
 }
