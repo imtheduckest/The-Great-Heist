@@ -683,6 +683,9 @@ MonoBehaviour:
   turnManager: {fileID: 1668777990}
   cardSpacing: 0.03
   startHeight: 0.1
+  targetWorldY: 5
+  animationDuration: 0.2
+  windowSize: 3
   deckEntries:
   - definition: {fileID: 11400000, guid: 7f3f6a05b8e3145409d27cbe1aa59edf, type: 2}
     quantity: 4

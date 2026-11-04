@@ -20,6 +20,11 @@ public class CardManager : MonoBehaviour
     public float cardSpacing = 0.03f;
     public float startHeight = 0.1f;
 
+    [Header("Pile Removal Animation")]
+    public float targetWorldY = 5f;
+    public float animationDuration = 0.4f;
+    public int windowSize = 3;
+
     [Header("Deck Setup")]
     public List<CardEntry> deckEntries = new List<CardEntry>();
 
@@ -358,25 +363,40 @@ public class CardManager : MonoBehaviour
         Debug.Log("[CardManager] Removing " + selectedPile.name + "!");
 
         // Remove references to its cards.
-        List<CardVisual> cards = cardsByPile[selectedPile];
+        List<CardVisual> cardsToAnimate = new List<CardVisual>(cardsByPile[selectedPile]);
 
-        foreach (CardVisual card in cards)
-        {
-            if (card != null)
-                pileByCard.Remove(card);
-        }
-
-        // Handle an active card if it belongs to this pile.
+        // Include an active card if it is still a child of this pile.
         if (activeCard != null &&
-            activeCard.transform.IsChildOf(selectedPile.transform))
+            activeCard.transform.IsChildOf(selectedPile.transform) &&
+            !cardsToAnimate.Contains(activeCard))
         {
+            cardsToAnimate.Add(activeCard);
             activeCard = null;
             CardVisual.SetControlsLocked(false);
         }
 
+        // Prevent interaction with the selected pile immediately.
+        foreach (CardVisual card in cardsToAnimate)
+        {
+            if (card == null)
+                continue;
+
+            card.isTopCard = false;
+
+            // Disable colliders so cards cannot be clicked during animation.
+            Collider[] colliders =
+                card.GetComponentsInChildren<Collider>();
+
+            foreach (Collider col in colliders)
+                col.enabled = false;
+
+            // Remove card references.
+            pileByCard.Remove(card);
+        }
+
+        // Remove the pile from the available piles immediately.
         cardsByPile.Remove(selectedPile);
 
-        // Remove this pile from the pile array.
         for (int i = 0; i < pileObjects.Length; i++)
         {
             if (pileObjects[i] == selectedPile)
@@ -386,16 +406,98 @@ public class CardManager : MonoBehaviour
             }
         }
 
-        // If this was the currently allowed pile, drawing is disabled.
         if (allowedPile == selectedPile)
         {
             allowedPile = null;
-            canDrawCards = false;
         }
 
-        // Destroying the parent also destroys all its card GameObjects.
-        Destroy(selectedPile);
+        canDrawCards = false;
 
-        Debug.Log("[CardManager] Pile removed successfully.");
+        // Start the sequential animation.
+        StartCoroutine(AnimatePileRemoval(selectedPile));
+    }
+
+    private IEnumerator AnimatePileRemoval(GameObject pile)
+    {
+
+        // Get all cards in the pile.
+        CardVisual[] cards =
+            pile.GetComponentsInChildren<CardVisual>();
+
+        // Start from the top card and move downwards.
+        System.Array.Reverse(cards);
+
+        int currentWindowSize = Mathf.Max(1, windowSize);
+
+        // How frequently the sliding window advances.
+        float stepDelay = animationDuration / currentWindowSize;
+
+        // Disable card interaction during the animation.
+        foreach (CardVisual card in cards)
+        {
+            if (card == null)
+                continue;
+
+            Collider[] colliders =
+                card.GetComponentsInChildren<Collider>();
+
+            foreach (Collider col in colliders)
+                col.enabled = false;
+        }
+
+        // Slide the window through the card list.
+        foreach (CardVisual card in cards)
+        {
+            if (card == null)
+                continue;
+
+            // Start this card's animation without waiting for it to finish.
+            StartCoroutine(AnimateCardUp(card));
+
+            // Move the window forward by one card.
+            yield return new WaitForSeconds(stepDelay);
+        }
+
+        // Wait for the final card to finish moving.
+        yield return new WaitForSeconds(animationDuration);
+
+        // Remove the entire pile after the animation.
+        Destroy(pile);
+
+        Debug.Log("[CardManager] Sliding window animation completed!");
+    }
+
+    private IEnumerator AnimateCardUp(CardVisual card)
+    {
+        Vector3 startPosition = card.transform.position;
+
+        Vector3 targetPosition = new Vector3(
+            startPosition.x,
+            targetWorldY,
+            startPosition.z
+        );
+
+        float elapsed = 0f;
+
+        while (elapsed < animationDuration)
+        {
+            elapsed += Time.deltaTime;
+
+            float progress = Mathf.Clamp01(
+                elapsed / animationDuration
+            );
+
+            progress = Mathf.SmoothStep(0f, 1f, progress);
+
+            card.transform.position = Vector3.Lerp(
+                startPosition,
+                targetPosition,
+                progress
+            );
+
+            yield return null;
+        }
+
+        card.transform.position = targetPosition;
     }
 }
