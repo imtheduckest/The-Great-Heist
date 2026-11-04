@@ -17,4 +17,5 @@ public class CardDefinition : ScriptableObject
 
     [Header("Card Visuals")]
     public GameObject cardPrefab;
+    public Sprite inventoryIcon;
 }

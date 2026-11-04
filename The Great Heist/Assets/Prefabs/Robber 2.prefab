@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3296466808873189306}
   - component: {fileID: 5841833474997253761}
   - component: {fileID: 8194925669730397557}
+  - component: {fileID: 8572914312118629782}
   m_Layer: 0
   m_Name: Robber 2
   m_TagString: Untagged
@@ -139,8 +140,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridManager: {fileID: 0}
   diceRoll: {fileID: 0}
+  captureDetector: {fileID: 0}
   gridX: 0
   gridY: 0
   tokenHeight: 0.5
   highlightPrefab: {fileID: 3934652121048508715, guid: 3f412053269345b4b82161b7cab3cc67, type: 3}
   highlightHeight: 0.06
+--- !u!114 &8572914312118629782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6901512825639318586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f679da7f94ff8764ab69b841b7acdb17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  valuableCards: []
+  itemCards: []

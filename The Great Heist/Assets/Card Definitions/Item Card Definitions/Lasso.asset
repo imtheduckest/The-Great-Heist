@@ -18,3 +18,4 @@ MonoBehaviour:
   description: If you are in distance from 1 square to player or closer, you can
     immobilize player until he rolls 2 or higher in his next turn
   cardPrefab: {fileID: 607883199911803223, guid: 8822421e3a51867449550aa0230d21a6, type: 3}
+  inventoryIcon: {fileID: 21300000, guid: 193bb01b209cc4b468ef8cd063300f2b, type: 3}

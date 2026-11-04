@@ -296,6 +296,24 @@ public class CardManager : MonoBehaviour
         if (card == null || activeCard != card)
             return;
 
+        // Get the current player.
+        PlayerToken currentPlayer = turnManager.ActivePlayer;
+
+        // Get their inventory.
+        PlayerInventory inventory =
+            currentPlayer.GetComponent<PlayerInventory>();
+
+        // Transfer the card.
+        if (inventory != null)
+        {
+            inventory.AddCard(card.cardData);
+        }
+
+        else
+        {
+            Debug.LogError(currentPlayer.playerName + " has no PlayerInventory component!");
+        }
+
         activeCard = null;
 
         CardVisual.SetControlsLocked(false);
