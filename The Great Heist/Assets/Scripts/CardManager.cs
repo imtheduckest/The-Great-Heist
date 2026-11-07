@@ -214,7 +214,7 @@ public class CardManager : MonoBehaviour
         Debug.Log("Spawned 4 card piles with 24 cards each.");
     }
 
-    public void SetAllowedPileForCell(int cellX, int cellY)
+    public bool SetAllowedPileForCell(int cellX, int cellY)
     {
         canDrawCards = false;
         allowedPile = null;
@@ -231,11 +231,19 @@ public class CardManager : MonoBehaviour
         else if (cellX == 2 && cellY == 4)
             allowedPile = pileObjects[0]; // CardPile_1
 
-        if (allowedPile != null)
+        if (allowedPile == null ||
+            !cardsByPile.TryGetValue(allowedPile, out List<CardVisual> pileCards) ||
+            pileCards.Count == 0)
         {
-            canDrawCards = true;
-            Debug.Log($"You can draw from {allowedPile.name}.");
+            Debug.Log("[CardManager] This cell has no cards remaining. Turn skipped.");
+            allowedPile = null;
+            return false;
         }
+
+        canDrawCards = true;
+
+        Debug.Log($"You can draw from {allowedPile.name}.");
+        return true;
     }
 
     public void RevealCard(CardVisual card)

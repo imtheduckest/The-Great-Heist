@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Tilemaps;
 
 public class TurnManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class TurnManager : MonoBehaviour
     public GridManager gridManager;
     public CardManager cardManager;
     public ExitManager exitManager;
+    public TileData tileData;
 
     [Header("Turn State")]
     public List<PlayerToken> players = new List<PlayerToken>();
@@ -174,17 +176,15 @@ public class TurnManager : MonoBehaviour
         }
 
         // Type 2 = Cell Square.
-        if (tile.tileType == 2 && cardManager != null)
+        if (tileData != null && tile.tileType == 2 && cardManager != null)
         {
-            Debug.Log(
-                $"[TurnManager] {ActivePlayer.playerName} " +
-                "finished on a Cell Square. Choose a card pile."
+            bool canDraw = cardManager.SetAllowedPileForCell(
+                finalPosition.x,
+                finalPosition.y
             );
 
-            cardManager.SetAllowedPileForCell(
-                movement.gridX,
-                movement.gridY
-            );
+            if (!canDraw)
+                EndTurn();
         }
         else
         {
