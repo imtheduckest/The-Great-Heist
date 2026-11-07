@@ -9,6 +9,7 @@ public class TurnManager : MonoBehaviour
     public DiceRoll diceRoll;
     public GridManager gridManager;
     public CardManager cardManager;
+    public ExitManager exitManager;
 
     [Header("Turn State")]
     public List<PlayerToken> players = new List<PlayerToken>();
@@ -31,6 +32,9 @@ public class TurnManager : MonoBehaviour
 
         if (gridManager == null)
             gridManager = FindObjectOfType<GridManager>();
+
+        if (exitManager == null)
+            exitManager = FindObjectOfType<ExitManager>();
 
         FindAndSortPlayersClockwise();
         AssignDefaultNames();
@@ -183,6 +187,13 @@ public class TurnManager : MonoBehaviour
             cardManager.SetDrawingAllowed(false);
 
         if (players == null || players.Count == 0) return;
+
+        // A complete round ends when the Cop finishes their turn.
+        if (ActivePlayer != null && ActivePlayer.isCop)
+        {
+            if (exitManager != null)
+                exitManager.OnCopTurnEnded();
+        }
 
         // Find the next active player.
         int checkedPlayers = 0;
