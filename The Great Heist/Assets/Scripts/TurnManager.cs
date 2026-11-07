@@ -193,14 +193,15 @@ public class TurnManager : MonoBehaviour
             checkedPlayers++;
 
         } while (
-            !players[currentTurnIndex].gameObject.activeInHierarchy &&
+            (!players[currentTurnIndex].gameObject.activeInHierarchy ||
+            players[currentTurnIndex].hasExited) &&
             checkedPlayers < players.Count
         );
 
         if (diceRoll != null)
             diceRoll.ResetDice();
 
-        if (players[currentTurnIndex].gameObject.activeInHierarchy)
+        if (players[currentTurnIndex].gameObject.activeInHierarchy && !players[currentTurnIndex].hasExited)
         {
             Debug.Log(
                 $"[TurnManager] It is now {ActivePlayer.playerName}'s turn."

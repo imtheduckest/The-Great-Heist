@@ -6,6 +6,7 @@ public class PlayerToken : MonoBehaviour
 {
     public string playerName = "Player";
     public bool isCop = false;
+    public bool hasExited = false;
 
     [Header("Current Grid Position")]
     public int gridX = 0;
