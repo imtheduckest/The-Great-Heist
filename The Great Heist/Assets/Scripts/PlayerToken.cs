@@ -26,6 +26,11 @@ public class PlayerToken : MonoBehaviour
         }
     }
 
+    public bool HasExited()
+    {
+        return hasExited || !gameObject.activeInHierarchy;
+    }
+
     public void SetupDefaultName(int index)
     {
         if (!isCop)

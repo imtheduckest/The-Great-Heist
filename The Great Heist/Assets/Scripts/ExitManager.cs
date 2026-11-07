@@ -125,4 +125,15 @@ public class ExitManager : MonoBehaviour
 
         return false;
     }
+
+    public void RegisterExitedPlayer(PlayerToken player)
+    {
+        if (gameEndManager == null)
+        {
+            Debug.LogError("[ExitManager] GameEndManager is missing!");
+            return;
+        }
+
+        gameEndManager.RegisterExitedPlayer(player);
+    }
 }

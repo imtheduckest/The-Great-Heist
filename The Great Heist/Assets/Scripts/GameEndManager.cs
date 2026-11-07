@@ -24,6 +24,8 @@ public class GameEndManager : MonoBehaviour
         player.hasExited = true;
         exitedPlayers.Add(player);
 
+        player.gameObject.SetActive(false);
+
         Debug.Log(player.playerName + " has escaped!");
 
         CheckWinCondition();

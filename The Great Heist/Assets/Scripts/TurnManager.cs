@@ -150,6 +150,22 @@ public class TurnManager : MonoBehaviour
             movement.gridY
         );
 
+        // Check whether a robber has reached an active exit.
+        if (!ActivePlayer.isCop &&
+            exitManager != null &&
+            exitManager.IsExitTile(finalPosition.x, finalPosition.y))
+        {
+            Debug.Log(
+                "[TurnManager] " + ActivePlayer.playerName +
+                " has reached an exit and escaped!"
+            );
+
+            exitManager.RegisterExitedPlayer(ActivePlayer);
+
+            EndTurn();
+            return;
+        }
+
         if (!gridManager.gridCells.TryGetValue(
             finalPosition, out TileData tile))
         {

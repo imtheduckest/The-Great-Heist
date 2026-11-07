@@ -30,6 +30,9 @@ public class CaptureDetector : MonoBehaviour
             if (!token.isCop)
                 continue;
 
+            if (token.hasExited)
+                continue;
+
             PlayerMovement movement = token.GetComponent<PlayerMovement>();
 
             if (movement == null)
